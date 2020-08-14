@@ -72,7 +72,8 @@ class _TodoListPageState extends State<TodoListPage> {
                 final editListText = await Navigator.of(context).push(
                   MaterialPageRoute(builder: (context) {
                     // 遷移先の画面として、リスト編集画面を指定する
-                    return TodoEditPage(text: todoList[index]);
+                    // TodoEditPageクラスに引数を持たせて、編集画面にリスト文字を渡す
+                    return TodoEditPage(oldText: todoList[index]);
                   }),
                 );
                 if (editListText != null) {
@@ -181,18 +182,21 @@ class _TodoAddPageState extends State<TodoAddPage> {
 }
 
 class TodoEditPage extends StatefulWidget {
-  TodoEditPage({Key key, @required this.text}) : super(key: key);
-  final String text;
+  // リスト一覧画面からリスト編集画面に文字列を渡すために、Stateを経由する必要があるため、
+  // 冗長だが一度値を受け取るようにする
+  TodoEditPage({Key key, @required this.oldText}) : super(key: key);
+  final String oldText;
 
   @override
   _TodoEditPageState createState() => _TodoEditPageState(
-        text: this.text,
+        oldText: this.oldText,
       );
 }
 
 class _TodoEditPageState extends State<TodoEditPage> {
-  _TodoEditPageState({Key key, @required this.text});
-  final String text;
+  // リスト一覧画面からリスト編集画面に文字を渡すようにする
+  _TodoEditPageState({Key key, @required this.oldText});
+  final String oldText;
 
   // 新規に入力したテキスト内容
   String _newText = "";
@@ -208,8 +212,8 @@ class _TodoEditPageState extends State<TodoEditPage> {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
-                // 入力済みのテキストを表示
-                Text(text, style: TextStyle(color: Colors.blue)),
+                // リスト一覧画面で入力済みのテキストを表示
+                Text(oldText, style: TextStyle(color: Colors.blue)),
                 // テキスト入力
                 TextField(
                   // 入力されたテキストの値を受け取る
