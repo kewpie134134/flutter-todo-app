@@ -40,7 +40,7 @@ class _TodoListPageState extends State<TodoListPage> {
         title: Text("リスト一覧"),
       ),
       // データをもとにListViewを作成する
-      body: ListView.builder(
+      body: ListView.separated(
         itemCount: todoList.length,
         itemBuilder: (context, index) {
           // Dissimissible を利用してスワイプでリスト項目を扱うようにする
@@ -67,6 +67,8 @@ class _TodoListPageState extends State<TodoListPage> {
             ),
           );
         },
+        // ListView.separatedと組み合わせて、リスト間に区切りを作成
+        separatorBuilder: (BuildContext context, int index) => const Divider(),
       ),
       floatingActionButton: FloatingActionButton(
         // async/awaitをpush()に付け加えると、popの引数で設定したデータを
