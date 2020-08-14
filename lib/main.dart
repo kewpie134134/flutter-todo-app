@@ -43,9 +43,27 @@ class _TodoListPageState extends State<TodoListPage> {
       body: ListView.builder(
         itemCount: todoList.length,
         itemBuilder: (context, index) {
-          return Card(
+          // Dissimissible を利用してスワイプでリスト項目を扱うようにする
+          return Dismissible(
+            key: ObjectKey(todoList[index]),
             child: ListTile(
               title: Text(todoList[index]),
+            ),
+            // 削除したら、removeする
+            onDismissed: (direction) {
+              setState(() {
+                todoList.removeAt(index);
+              });
+            },
+            // =>スワイプでの処理
+            background: Container(
+              color: Colors.green,
+              child: Icon(Icons.check),
+            ),
+            // <=スワイプでの処理
+            secondaryBackground: Container(
+              color: Colors.red,
+              child: Icon(Icons.cancel),
             ),
           );
         },
