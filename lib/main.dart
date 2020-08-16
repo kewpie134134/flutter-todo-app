@@ -16,6 +16,11 @@ class MyApp extends StatelessWidget {
         // テーマカラー
         primarySwatch: Colors.blue,
         visualDensity: VisualDensity.adaptivePlatformDensity,
+        brightness: Brightness.light
+      ),
+      // ダークモード対応
+      darkTheme: ThemeData(
+        brightness: Brightness.dark
       ),
       home: TodoListPage(),
     );
