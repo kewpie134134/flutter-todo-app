@@ -36,6 +36,10 @@ dependencies:
 
   provider:
 
+  # For using sqlite
+  sqflite:
+  path_provider:
+
 dev_dependencies:
   flutter_test:
     sdk: flutter
