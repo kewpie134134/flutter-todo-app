@@ -1,19 +1,18 @@
 import 'dart:async';
 import 'dart:core';
 import 'package:flutter_todo_app/models/todo.dart';
+import 'package:flutter_todo_app/repositories/db_provider.dart';
 
 class TodoBloc {
-  static final List<Todo> sampleTodos = [];
-
   final _todoController = StreamController<List<Todo>>();
   Stream<List<Todo>> get todoStream => _todoController.stream;
 
-  TodoBloc() {
-    getTodos();
+  getTodos() async {
+    _todoController.sink.add(await DBProvider.db.getAllTodos());
   }
 
-  getTodos() {
-    _todoController.sink.add(sampleTodos);
+  TodoBloc() {
+    getTodos();
   }
 
   dispose() {
@@ -22,23 +21,17 @@ class TodoBloc {
 
   create(Todo todo) {
     todo.assignUUID();
-    sampleTodos.add(todo);
+    DBProvider.db.createTodo(todo);
     getTodos();
   }
 
   update(Todo todo) {
-    int _index = sampleTodos.indexWhere((Todo t) => t.id == todo.id);
-    if (_index >= 0) {
-      sampleTodos[_index] = todo;
-      getTodos();
-    }
+    DBProvider.db.createTodo(todo);
+    getTodos();
   }
 
   delete(String id) {
-    int _index = sampleTodos.indexWhere((Todo t) => t.id == id);
-    if (_index >= 0) {
-      sampleTodos.removeAt(_index);
-      getTodos();
-    }
+    DBProvider.db.deleteTodo(id);
+    getTodos();
   }
 }
